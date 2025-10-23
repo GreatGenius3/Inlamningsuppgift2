@@ -1,8 +1,10 @@
 
 import org.junit.jupiter.api.Test;
+
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class MemberListTest
 {
@@ -13,6 +15,8 @@ public class MemberListTest
         MemberList memberList = new MemberList();
         memberList.loadMembersFromFile("res/memberlist/gym_medlemmar.txt");
 
+        assertNotEquals(0, memberList.getNumberOfMembers());
+
         // Kolla antalet medlemmar i listan och börja skriv ut info på alla medlemmar
         int antalMedlemmar = memberList.getNumberOfMembers();
         for (int i = 0; i < antalMedlemmar; i++)
@@ -21,6 +25,8 @@ public class MemberListTest
             String strFormat = "Namn: %s Adress: %s Mailadress: %s Personnummer: %s Datum köpt gymmedlemskap: %s Datum senast uppdaterad: %s Medlemsniva: %s";
             IO.println(String.format(strFormat, member.getNamn(), member.getAddress(), member.getMailAdress(), member.getPersonNummer(), member.getMedlemsDatum(), member.getSenastUppdaterad(), member.getMedlemsNiva()));
         }
+
+        assertEquals(20, antalMedlemmar);
     }
 
     @Test
@@ -39,7 +45,7 @@ public class MemberListTest
         for (int i = 0; i < antalMedlemmar; i++)
         {
             Member member = memberList.getMember(i);
-            if (member.hasMemberPayed(today))
+            if (member.isActiveMember(today))
             {
                 IO.println("Medlemmen " + member.getNamn() +
                         "betalade senast " + member.getSenastUppdaterad());
@@ -54,7 +60,7 @@ public class MemberListTest
         for (int i = 0; i < antalMedlemmar; i++)
         {
             Member member = memberList.getMember(i);
-            if (member.hasMemberPayed(today) == false)
+            if (member.isActiveMember(today) == false)
             {
                 IO.println("Medlemmen " + member.getNamn() +
                         "betalade senast " + member.getSenastUppdaterad());
@@ -108,7 +114,7 @@ public class MemberListTest
         for (int i = 0; i < memberList.getNumberOfMembers(); i++)
         {
             Member member = memberList.getMember(i);
-            if (member.hasMemberPayed(today))
+            if (member.isActiveMember(today))
             {
                 IO.println("Medlemmen " + member.getNamn() +
                         "betalade senast " + member.getSenastUppdaterad());

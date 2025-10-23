@@ -57,7 +57,7 @@ public class Member
     public void setMedlemsNiva(String medlemsNiva) { this.medlemsNiva = medlemsNiva; }
 
     // En funktion som kollar om medlemskapet är betalt minst 1 år tillbaka
-    public boolean hasMemberPayed(LocalDate currentdate)
+    public boolean isActiveMember(LocalDate currentdate)
     {
         // Kolla nu om medlemskapet är betalt minst 1 år tillbaka
         LocalDate oneYearAgo = currentdate.minusYears(1);

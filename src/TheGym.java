@@ -55,7 +55,7 @@ public class TheGym
 
     // Funktionen checkIfCustomerIsPaid kollar om kunden är en betald medlem
     // Tar in en Member objekt och ett datum
-    public void checkIfCustomerIsPaid(Member aMember, LocalDate datum)
+    public void checkIfCustomerIsActive(Member aMember, LocalDate datum)
     {
         // Finns inte kunden i listan
         if (aMember == null)
@@ -68,12 +68,13 @@ public class TheGym
         else
         {
             // Kolla nu om detta är en betald kund
-            if (aMember.hasMemberPayed(datum))
+            if (aMember.isActiveMember(datum))
             {
                 JOptionPane.showMessageDialog (null, "Kunden " +
                                 aMember.getNamn() +
                                 " är medlem i nivån\n" +
-                                aMember.getMedlemsNiva(),
+                                aMember.getMedlemsNiva() +
+                                "\nKunden är nu registrerad",
                         "Kund",
                         JOptionPane.INFORMATION_MESSAGE);
                 // Logga nu in kunden i PT:s logg fil
@@ -126,7 +127,8 @@ public class TheGym
                             "Och idag är det "+ today.getDayOfWeek() + "\n" +
                             "Och dagens datum "+ today.getYear() + "-" + today.getMonthValue() + "-" + today.getDayOfMonth() + "\n\n" +
                             "Nu kommer det fram en kund till receptionen.\n" +
-                            "Skriv in kundens för och efternamn eller han/hon:s personnummer\n");
+                            "Skriv in kundens för och efternamn\n" +
+                            "eller han/hon:s personnummer utan bindestreck (10 siffor)\n");
 
             // Trycker vi på kryss knappen eller avbryt knappen så avslutas programmet
             if (customer == null)
@@ -148,14 +150,14 @@ public class TheGym
 
                         // Nu kollar vi om det personnummret finns i medlemslistan
                         Member member = memberList.getMemberPersonNumber(customer);
-                        checkIfCustomerIsPaid(member, today);
+                        checkIfCustomerIsActive(member, today);
                     }
                 }
                 // Om inte så är det ett namn vi söker
                 else
                 {
                     Member member = memberList.getMemberName(customer);
-                    checkIfCustomerIsPaid(member, today);
+                    checkIfCustomerIsActive(member, today);
                 }
             }
         }
