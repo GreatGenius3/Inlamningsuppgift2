@@ -61,6 +61,6 @@ public class Member
     {
         // Kolla nu om medlemskapet är betalt minst 1 år tillbaka
         LocalDate oneYearAgo = currentdate.minusYears(1);
-        return memberLastDate.isAfter(oneYearAgo);
+        return ( memberLastDate.isAfter(oneYearAgo) || memberLastDate.isEqual(oneYearAgo) );
     }
 }
