@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 public class MemberListTest
 {
     @Test
@@ -25,7 +24,7 @@ public class MemberListTest
     }
 
     @Test
-    public void kollaBetaldaMedlemmar()
+    public void SorteraMedlemmmar()
     {
         // Öppna medlemslistan
         MemberList memberList = new MemberList();
@@ -35,14 +34,34 @@ public class MemberListTest
         // Vi tar fram dagens datum
         LocalDate today = LocalDate.now();
         int antalMedlemmar = memberList.getNumberOfMembers();
+        int antalBetaldaMedlemmar = 0;
+        IO.println("Antal betalada medlemmar");
         for (int i = 0; i < antalMedlemmar; i++)
         {
             Member member = memberList.getMember(i);
             if (member.hasMemberPayed(today))
             {
-                IO.println("Betalda medlem: " + member.getNamn() + "som betalade senast " + member.getSenastUppdaterad());
+                IO.println("Medlemmen " + member.getNamn() +
+                        "betalade senast " + member.getSenastUppdaterad());
+                antalBetaldaMedlemmar++;
             }
         }
+        assertEquals(7, antalBetaldaMedlemmar);
+
+        // Sen sorterar vi dem som är föredetta medlemmar
+        IO.println("\nFöre detta medlemmar");
+        int antalForedettaMedlemmar = 0;
+        for (int i = 0; i < antalMedlemmar; i++)
+        {
+            Member member = memberList.getMember(i);
+            if (member.hasMemberPayed(today) == false)
+            {
+                IO.println("Medlemmen " + member.getNamn() +
+                        "betalade senast " + member.getSenastUppdaterad());
+                antalForedettaMedlemmar++;
+            }
+        }
+        assertEquals(13, antalForedettaMedlemmar);
     }
 
     @Test
@@ -73,6 +92,28 @@ public class MemberListTest
         assertEquals("Lilian Andersson", memberList.getMember(17).getNamn());
         assertEquals("Jan Persson", memberList.getMember(18).getNamn());
         assertEquals("Jakob Lundin", memberList.getMember(19).getNamn());
+    }
 
+    @Test
+    public void testSkrivAllaBetaladaMedlemmarPTFil()
+    {
+        // Checka in alla betalada medlemmar till en test PT fil
+        // Öppna medlemslistan
+        MemberList memberList = new MemberList();
+        memberList.loadMembersFromFile("res/memberlist/gym_medlemmar.txt");
+
+        // Nu kollar vi hur många betalda kunder vi har på listan
+        // Vi tar fram dagens datum
+        LocalDate today = LocalDate.now();
+        for (int i = 0; i < memberList.getNumberOfMembers(); i++)
+        {
+            Member member = memberList.getMember(i);
+            if (member.hasMemberPayed(today))
+            {
+                IO.println("Medlemmen " + member.getNamn() +
+                        "betalade senast " + member.getSenastUppdaterad());
+                memberList.saveMemberToPTfile("res/traininglog/test_PT_logg.txt", member, today);
+            }
+        }
     }
 }

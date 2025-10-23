@@ -1,14 +1,12 @@
 import javax.swing.*;
 import java.io.*;
 import java.time.LocalDate;
-import java.util.Scanner;
-import java.io.FileWriter;
 
 //  Gym klassen
 public class TheGym
 {
     private MemberList memberList;
-    private String gymName;
+    final private String gymName;
 
     // Konstruktor för TheGym
     // 1 parameter (String)
@@ -81,6 +79,7 @@ public class TheGym
                 // Logga nu in kunden i PT:s logg fil
                 if (memberList.saveMemberToPTfile("res/traininglog/pt_log.txt", aMember, datum) == false)
                 {
+                    // Blir något fel med skrivningen så skicka ett felmeddelande
                     JOptionPane.showMessageDialog (null, "Fel vid skrivning till PT filen",
                             "Filläsnings fel",
                             JOptionPane.ERROR_MESSAGE);
@@ -89,9 +88,9 @@ public class TheGym
             // Eller om denna kund var en föredetta medlem
             else
             {
-                JOptionPane.showMessageDialog (null, "Kunden är en föredetta medlemmen\n" +
-                                aMember.getNamn() +
-                                "\nKunden måste betala ny avgift för att aktivera medlemskapet igen\n",
+                JOptionPane.showMessageDialog (null, "Kunden " + aMember.getNamn() +
+                                "\nKunden måste betala ny avgift för att aktivera medlemskapet igen.\n" +
+                                "\nSenast betald " + aMember.getSenastUppdaterad(),
                         "Föredetta kund",
                         JOptionPane.WARNING_MESSAGE);
             }

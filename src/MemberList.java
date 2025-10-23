@@ -65,6 +65,12 @@ public class MemberList
             IO.println("Kunde inte läsa filen: " + filePath);
             return false;
         }
+        catch (IllegalStateException e)
+        {
+            e.printStackTrace();
+            IO.println("Felaktig värde inläst: " + filePath);
+            return false;
+        }
 
         return true;
     }
@@ -96,31 +102,38 @@ public class MemberList
         return true;
     }
 
+    // Funktion som tar fram medlemslistan
     public List<Member> getMemberList()
     {
         return listOfMembers;
     }
 
+    // Funktion som tar fram antalet medlemmar
     public int getNumberOfMembers()
     {
         return listOfMembers.size();
     }
 
+    // Funktion som tar fram en medlem via index
     public Member getMember(int index)
     {
         return listOfMembers.get(index);
     }
 
+    // Funktion som tar fram en medlem via namn
     public Member getMemberName(String name)
     {
         for (Member member : listOfMembers)
         {
+            // Hittar vi medlemmen returnera den
             if (member.getNamn().equals(name))
                 return member;
         }
+        // Annars returnera null
         return null;
     }
 
+    // Funktion som tar fram en medlem via personnummer
     public Member getMemberPersonNumber(String personNumber)
     {
         for (Member member : listOfMembers)
@@ -128,6 +141,7 @@ public class MemberList
             if (member.getPersonNummer().equals(personNumber))
                 return member;
         }
+        // Annars returnera null
         return null;
     }
 }
